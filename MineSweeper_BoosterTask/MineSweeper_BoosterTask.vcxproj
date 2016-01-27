@@ -10,6 +10,22 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\MineSweeper\MineSweeper\Display.cpp" />
+    <ClCompile Include="..\..\MineSweeper\MineSweeper\ErrorHandling.cpp" />
+    <ClCompile Include="..\..\MineSweeper\MineSweeper\MineGrid.cpp" />
+    <ClCompile Include="..\..\MineSweeper\MineSweeper\MineSweeperGame.cpp" />
+    <ClCompile Include="..\..\MineSweeper\MineSweeper\Settings.cpp" />
+    <ClCompile Include="..\..\MineSweeper\MineSweeper\VisualGrid.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\MineSweeper\MineSweeper\Display.h" />
+    <ClInclude Include="..\..\MineSweeper\MineSweeper\ErrorHandling.h" />
+    <ClInclude Include="..\..\MineSweeper\MineSweeper\MineGrid.h" />
+    <ClInclude Include="..\..\MineSweeper\MineSweeper\MineSweeperGame.h" />
+    <ClInclude Include="..\..\MineSweeper\MineSweeper\Settings.h" />
+    <ClInclude Include="..\..\MineSweeper\MineSweeper\VisualGrid.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B7A002F0-BE90-46ED-BE33-576FD0962AAE}</ProjectGuid>
     <RootNamespace>MineSweeper_BoosterTask</RootNamespace>
@@ -63,8 +79,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
