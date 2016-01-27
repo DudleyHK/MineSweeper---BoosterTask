@@ -11,20 +11,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\MineSweeper\MineSweeper\Display.cpp" />
-    <ClCompile Include="..\..\MineSweeper\MineSweeper\ErrorHandling.cpp" />
-    <ClCompile Include="..\..\MineSweeper\MineSweeper\MineGrid.cpp" />
-    <ClCompile Include="..\..\MineSweeper\MineSweeper\MineSweeperGame.cpp" />
-    <ClCompile Include="..\..\MineSweeper\MineSweeper\Settings.cpp" />
-    <ClCompile Include="..\..\MineSweeper\MineSweeper\VisualGrid.cpp" />
+    <ClInclude Include="Display.h" />
+    <ClInclude Include="ErrorHandling.h" />
+    <ClInclude Include="MineGrid.h" />
+    <ClInclude Include="MineSweeperGame.h" />
+    <ClInclude Include="Settings.h" />
+    <ClInclude Include="VisualGrid.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\MineSweeper\MineSweeper\Display.h" />
-    <ClInclude Include="..\..\MineSweeper\MineSweeper\ErrorHandling.h" />
-    <ClInclude Include="..\..\MineSweeper\MineSweeper\MineGrid.h" />
-    <ClInclude Include="..\..\MineSweeper\MineSweeper\MineSweeperGame.h" />
-    <ClInclude Include="..\..\MineSweeper\MineSweeper\Settings.h" />
-    <ClInclude Include="..\..\MineSweeper\MineSweeper\VisualGrid.h" />
+    <ClCompile Include="Display.cpp" />
+    <ClCompile Include="ErrorHandling.cpp" />
+    <ClCompile Include="MineGrid.cpp" />
+    <ClCompile Include="MineSweeperGame.cpp" />
+    <ClCompile Include="Settings.cpp" />
+    <ClCompile Include="VisualGrid.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B7A002F0-BE90-46ED-BE33-576FD0962AAE}</ProjectGuid>
