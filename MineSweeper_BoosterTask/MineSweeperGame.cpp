@@ -23,7 +23,7 @@ int main()
 	gameLoop = true;
 
 	while (gameLoop)
-	
+	{
 
 		Display::welcome();					// Print title
 		continueGame = msGame.mainMenu();	// Goto MainMenu
