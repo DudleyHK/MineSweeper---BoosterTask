@@ -22,7 +22,7 @@ int ErrorHandling::validateHeightWidth(int height, int width, int gameMode)
 	// depending on the game mode 
 	if (gameMode == 1)
 	{
-		if ((height < 3 || height > 20) || (width < 3 || width > 20))
+		if ((height < 4 || height > 20) || (width < 4 || width > 20))
 		{
 			errorNumber = 8;
 		}

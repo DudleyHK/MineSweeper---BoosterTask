@@ -154,7 +154,7 @@ void VGrid::changeIntToChar(int colCoord, int rowCoord, int number)
 		setChar = '!';
 		break;
 	case 0:
-		setChar = '0';
+		setChar = '.';
 		break;
 	case 1:
 		setChar = '1';

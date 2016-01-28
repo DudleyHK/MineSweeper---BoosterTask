@@ -13,16 +13,16 @@
 #include "Display.h"
 #include "ErrorHandling.h"
 
-using namespace Display;
-
 class MineSweeper
 {
 public:
-	
-	MGrid mineGrid;
-	VGrid visualGrid;
+
+	MGrid *mineGrid = new MGrid;
+	VGrid *visualGrid = new VGrid;
+	Display *display = new Display;
 	Settings settings;
 	ErrorHandling errorHandling;
+
 
 	/*************************Data Access******************************/
 
@@ -43,11 +43,11 @@ public:
 	bool playGame();
 	void inputGridSize();
 	void inputCoordinates();
-	void actOnCoordInput();
+	void actOnLetterInput();
+	void floodFill(int colCoord, int rowCoord);
 	void locateAllMines();
 	void updateCounter();
 	bool continueOrQuit();
-
 
 private:
 
