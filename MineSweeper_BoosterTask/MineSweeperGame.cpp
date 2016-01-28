@@ -7,6 +7,7 @@ Summary: Class Functions and compliers start point main().
 #include "MineSweeperGame.h"
 
 #include <iostream>
+#include <ctime> 
 using namespace std;
 
 
@@ -296,6 +297,8 @@ bool MineSweeper::playGame()
 		cout << numberOfMines << " mine is hidden." << endl;
 	}
 
+	// start timmer
+//	unsigned int startTime = clock();
 
 	inGame = true;
 	while (inGame)
@@ -377,10 +380,9 @@ bool MineSweeper::playGame()
 			display->winner();
 
 			continueGame = continueOrQuit();
-
-			continueGame = false;
 		}
-	}
+	} // END while
+
 
 	return continueGame;
 }
@@ -583,19 +585,32 @@ void MineSweeper::actOnLetterInput()
 
 void MineSweeper::floodFill(int colCoord, int rowCoord)
 {
-	// everytime the function runs these variables will be updated
+	// check if position in array exists
+	if ((width*rowCoord) + colCoord < 0 || (width*rowCoord) + colCoord >(height * width))
+	{
+		return;
+	}
+
+	// return value at the position
 	int numAtPos = mineGrid->getPos(colCoord, rowCoord);
 	char characterAtPos = visualGrid->getPos(colCoord, rowCoord);
 
-	// IF row coordinates are not inbounds  try next iteration.
 	if (rowCoord < 0 || rowCoord > height)
 	{
 		return;
 	}
 
-	// IF column coordinates are not inbounds  try next iteration.
 	if (colCoord < 0 || colCoord > width)
 	{
+		return;
+	}
+
+
+	// IF the position is more than 0
+	if (numAtPos > 0)
+	{
+		// display the number and return
+		visualGrid->changeIntToChar(colCoord, rowCoord, numAtPos);
 		return;
 	}
 
@@ -605,21 +620,26 @@ void MineSweeper::floodFill(int colCoord, int rowCoord)
 		return;
 	}
 
-	// IF the position is NOT empty
-	if (numAtPos != 0)
-	{
-		// display the number and return
-		visualGrid->changeIntToChar(colCoord, rowCoord, numAtPos);
-		return;
-	}
+	// Print a line.
+	cout << endl;
+	cout << "===============================================" << endl << endl;
+
+	// output the visual grid.
+	visualGrid->displayGrid();
+
+	/**DEBUGGING DISPLAY**/
+	cout << endl;
+	cout << "===============================================" << endl << endl;
+	mineGrid->displayGrid();
+	/**DEBUGGING DISPLAY**/
 
 	// if all of these conditions are met visually display the empty position
 	visualGrid->changeIntToChar(colCoord, rowCoord, numAtPos);
 
 	// run each possible combonation of positons
 	floodFill(colCoord + 1, rowCoord);
-	floodFill(colCoord - 1, rowCoord);
 	floodFill(colCoord, rowCoord + 1);
+	floodFill(colCoord - 1, rowCoord);
 	floodFill(colCoord, rowCoord - 1);
 	floodFill(colCoord + 1, rowCoord + 1);
 	floodFill(colCoord - 1, rowCoord - 1);
@@ -630,7 +650,7 @@ void MineSweeper::floodFill(int colCoord, int rowCoord)
 
 /*Check each element of the grids to check the number of total flags on the map,
 and the number of flags correctly positioned on the map. This will avoid players
-being able to cheat by randomly placing 10 flags in the grid*/
+being able to cheat by randomly placing x number of flags in the grid*/
 void MineSweeper::updateCounter()
 {
 	int totalFlagsCounter = 0, correctFlagsCounter = 0;
