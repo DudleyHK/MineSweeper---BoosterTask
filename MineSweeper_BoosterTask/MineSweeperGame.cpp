@@ -285,9 +285,6 @@ bool MineSweeper::playGame()
 	bool inGame = false;
 	int mine = -1;
 
-	// select unused value
-	returnCode = 5;
-
 
 	// output instructions display
 	display->instructions();
@@ -309,12 +306,18 @@ bool MineSweeper::playGame()
 	inGame = true;
 	while (inGame)
 	{
+		// select UNUSED value to initialise
+		returnCode = 5;
+
 		// Print a line.
 		cout << endl;
 		cout << "===============================================" << endl << endl;
 
 		// output the visual grid.
 		visualGrid->displayGrid();
+
+		/*DEBUGGER*/
+		mineGrid->displayGrid();
 
 		// guess coordinates
 		inputCoordinates();
@@ -327,7 +330,7 @@ bool MineSweeper::playGame()
 			break;
 
 		case 0:
-			cout << "option unavailable. please check and try again" << endl;
+			cout << "# Error: option unavailable. please check and try again" << endl;
 			break;
 
 		case 1: 
@@ -491,31 +494,39 @@ void MineSweeper::inputCoordinates()
 			actionLetter = toupper(actionLetter);
 		}
 
-		isValid = 
-		// check for errors
-		try
-		{
-			errorHandling.validateCoordinates(systemColCoord, systemRowCoord,
-				actionLetter, height, width);
+		isValid = inputCoordinatesErrorCheck();
 
-			// if all inputs are valid
-			isValid = true;
-		}
-		catch (int n)
-		{
-			// if exception is thrown
-			isValid = false;
-
-			// Print error message
-			errorHandling.printMessage(n);
-
-			display->tryAgain();
-		}
 	} // END while
 
 
 	actOnLetterInput();
 }
+
+/* Function to validate inputted coordinates and action. */
+bool MineSweeper::inputCoordinatesErrorCheck()
+{
+	bool isValid = false;
+
+
+	try
+	{
+		errorHandling.validateCoordinates(systemColCoord, systemRowCoord,
+			actionLetter, height, width);
+
+		isValid = true;
+	}
+	catch (int n)
+	{
+		isValid = false;
+
+		errorHandling.printMessage(n);
+
+		display->tryAgain();
+	}
+
+	return isValid;
+}
+
 
 
 void MineSweeper::actOnLetterInput()
@@ -542,56 +553,56 @@ void MineSweeper::actOnLetterInput()
 
 	case 'D':
 
-		// Check if position is a mine
-		valueAtPos = mineGrid->getPos(systemColCoord, systemRowCoord);
+		returnCode = actOnLetterInputDig();
 
-		// if position is a mine
-		if (valueAtPos == -1)
-		{
-			returnCode = -1;
-		}
-		else
-		{
-			// Check if position is a mine
-			valueAtPos = mineGrid->getPos(systemColCoord, systemRowCoord);
+		break;
 
-			// if position is a mine
-			if (valueAtPos == -1)
-			{
-				returnCode = -1;
-			}
-			else
-			{
-				// check if position is an 'F'
-				characterAtPos = visualGrid->getPos(systemColCoord, systemRowCoord);
-
-				// if the position is not a flag
-				if (characterAtPos != 'F')
-				{
-					// return value at coordintes
-					valueAtPos = mineGrid->getPos(systemColCoord, systemRowCoord);
-
-					// IF val is empty
-					if (valueAtPos == 0)
-					{
-						floodFill(systemColCoord, systemRowCoord);
-					}
-					else
-					{
-						//simple chang ethe single position
-						visualGrid->changeIntToChar(systemColCoord, systemRowCoord, valueAtPos);
-					}
-				}
-			}
-			break;
-
-			// to exit the game
+		// to exit the game
 	case 'Q':
 		returnCode = 1;
 		break;
-		}
+
 	}
 }
+
+int MineSweeper::actOnLetterInputDig()
+{
+	int valueAtPos = 0;
+	char characterAtPos = '*';
+
+
+	// return values at position
+	valueAtPos = mineGrid->getPos(systemColCoord, systemRowCoord);
+	characterAtPos = visualGrid->getPos(systemColCoord, systemRowCoord);
+
+
+	// if position is a mine
+	if (valueAtPos == -1)
+	{
+		returnCode = -1;
+	}
+	else
+	{
+		// if the position is not a flag
+		if (characterAtPos != 'F')
+		{
+			// IF val is empty
+			if (valueAtPos == 0)
+			{
+				floodFill(systemColCoord, systemRowCoord);
+			}
+			else
+			{
+				//simple chang ethe single position
+				visualGrid->changeIntToChar(systemColCoord, systemRowCoord, valueAtPos);
+			}
+		}
+	}
+
+	return returnCode;
+}
+
+
 
 
 void MineSweeper::floodFill(int colCoord, int rowCoord)
