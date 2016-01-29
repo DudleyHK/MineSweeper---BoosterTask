@@ -18,18 +18,23 @@ MGrid::MGrid()
 {
 	// point to nothing
 	mArray = nullptr;
-}
-
-MGrid::~MGrid()
-{
-	// delte of the heap and set to no memory
-	delete[] mArray;
-	mArray = nullptr;
 
 	// reset main variables
 	height = 0;
 	width = 0;
 	numberOfMines = 0;
+}
+
+MGrid::~MGrid()
+{
+	reset();
+}
+
+void MGrid::reset()
+{
+	// delte of the heap and set to no memory
+	delete[] mArray;
+	mArray = nullptr;
 }
 
 
