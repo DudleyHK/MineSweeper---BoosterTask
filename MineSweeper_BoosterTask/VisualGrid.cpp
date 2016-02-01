@@ -12,14 +12,12 @@ using namespace std;
 /*************************Data Access******************************/
 
 VGrid::VGrid()
+	: vArray(nullptr),
+	height(0),
+	width(0),
+	numberOfMines(0)
 {
-	// set array to point at nothing
-	vArray = nullptr;
-
-	// reset main variables
-	height = 0;
-	width = 0;
-	numberOfMines = 0;
+	//constructer
 
 }
 

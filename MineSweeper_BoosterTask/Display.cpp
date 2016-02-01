@@ -9,6 +9,16 @@
 #include <iostream>
 using namespace std;
 
+Display::Display()
+{
+	// empty
+}
+
+Display::~Display()
+{
+	//Empty
+}
+
 
 void Display::welcome()
 {

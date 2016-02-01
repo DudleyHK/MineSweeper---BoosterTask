@@ -20,6 +20,7 @@ public:
 	/*************************Data Access******************************/
 
 	MineSweeper();
+	~MineSweeper();
 	
 	void getNumberOfMines();
 	void passSize();
@@ -29,7 +30,7 @@ public:
 
 	bool mainMenu();
 	void mainMenuPlayGame();
-	void mainMenuSettings();
+	void mainMenuDisplay();
 	bool mainMenuIsExit();
 
 	void menuValueIsInvaild(int userInput);
@@ -68,22 +69,22 @@ private:
 
 
 	/* SIZE AND COORDINATE INFORMATION */
-	int height, width, numberOfMines;
-	int inputCoordC, inputCoordR;
-	char actionLetter;
+	int height = 0, width = 0, numberOfMines = 0;
+	int inputCoordC = 0, inputCoordR = 0;
+	char actionLetter = 0;
 
 	/* COORDINATES USED BUT THE PROGRAM (USER INPUT - 1) */
-	int systemRowCoord;
-	int systemColCoord;
+	int systemRowCoord = 0;
+	int systemColCoord = 0;
 
 	/* INPUT VALIDATION */
-	int errorNumber;
-	int returnCode;
+	int errorNumber = 0;
+	int returnCode = 0;
 
 	/* MODE AND CONTINUE OPTION */
-	int gameMode;
-	bool continueGame;
+	int gameMode = 0;
+	bool continueGame = 0;
 
 	/* FLAG INFORMATION */
-	int correctFlags, totalFlags;
+	int correctFlags = 0, totalFlags = 0;
 };

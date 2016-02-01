@@ -15,14 +15,12 @@ using namespace std;
 /*************************Data Access******************************/
 
 MGrid::MGrid()
+	: mArray(nullptr),
+	height(0),
+	width(0),
+	numberOfMines(0)
 {
-	// point to nothing
-	mArray = nullptr;
-
-	// reset main variables
-	height = 0;
-	width = 0;
-	numberOfMines = 0;
+	// constructor
 }
 
 MGrid::~MGrid()
@@ -131,7 +129,6 @@ void MGrid::mineGridCalculations()
 								{
 									// increment position by one
 									mArray[(width*adjacentRow) + adjacentCol]++;
-
 								}
 							}
 						}
