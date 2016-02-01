@@ -44,6 +44,7 @@ public:
 	bool playGameIsHit();
 	bool playGameGoToMainMenu();
 
+	void timer(time_t startTime, time_t endTime);
 
 	void inputGridSize();
 	bool inputGridSizeErrorCheck();
@@ -83,8 +84,12 @@ private:
 
 	/* MODE AND CONTINUE OPTION */
 	int gameMode = 0;
-	bool continueGame = 0;
+	bool continueGame = false;
+	bool inGame = false;
 
 	/* FLAG INFORMATION */
 	int correctFlags = 0, totalFlags = 0;
+
+	/*TIMER VARIABLES*/
+	int seconds = 0, minutes = 0, hours = 0;
 };

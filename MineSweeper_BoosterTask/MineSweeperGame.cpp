@@ -7,7 +7,10 @@ Summary: Class Functions and compliers start point main().
 #include "MineSweeperGame.h"
 
 #include <iostream>
+#include <ctime>
 using namespace std;
+
+
 
 
 /**START**/
@@ -286,8 +289,8 @@ bool MineSweeper::loadGame()
 
 bool MineSweeper::playGame()
 {
-	bool inGame = false, timerOn = false;
 	int mine = -1;
+	time_t startTime = 0, endTime = 0;
 
 
 	// output instructions display
@@ -305,6 +308,10 @@ bool MineSweeper::playGame()
 	}
 
 	inGame = true;
+
+	// start timer
+	timer();
+
 	while (inGame)
 	{
 		// select UNUSED value to initialise
@@ -339,16 +346,25 @@ bool MineSweeper::playGame()
 			inGame = playGameGoToMainMenu();
 		}
 
-		// update number of correctly flagged mines
-		updateCounter();
-
-		// Check if game is won
-		if (correctFlags == numberOfMines && totalFlags == numberOfMines)
+		if (returnCode != 1)
 		{
-			// output display
-			display->winner();
+			// update number of correctly flagged mines
+			updateCounter();
+
+			// Check if game is won
+			if (correctFlags == numberOfMines && totalFlags == numberOfMines)
+			{
+				// output display
+				display->winner();
+			}
 		}
 	} // END while
+
+
+	// display time
+	timer();
+
+
 	continueGame = continueOrQuit();
 
 	return continueGame;
@@ -375,7 +391,7 @@ bool MineSweeper::playGameIsHit()
 
 	return inGame;
 }
-
+                                                                                         
 bool MineSweeper::playGameGoToMainMenu()
 {
 	bool inGame = false;
@@ -397,6 +413,38 @@ bool MineSweeper::playGameGoToMainMenu()
 }
 
 
+void MineSweeper::timer(time_t &s, time_t &e)
+{
+
+
+	if (inGame)
+	{
+		time_t (startTime);		// Set time
+		return;
+	}
+	else
+	{
+		time_t (endTime);		// Set time
+	}
+
+
+	seconds = endTime - startTime;
+
+	while (!(seconds / 60) < 1)
+	{
+		seconds -= 60;
+		minutes++;
+	}
+
+	while (!(minutes / 60) < 1)
+	{
+		seconds -= 60;
+		hours++;
+	}
+
+	cout << "Length of game " << hours << " :: " << minutes << " :: " << seconds <<
+		"( hours::minutes::seconds)" << endl;
+}
 
 void MineSweeper::inputGridSize()
 {
@@ -596,7 +644,7 @@ int MineSweeper::actOnLetterInputDig()
 			}
 			else
 			{
-				//simple chang ethe single position
+				//simple change the single position
 				visualGrid->changeIntToChar(systemColCoord, systemRowCoord, valueAtPos);
 			}
 		}
@@ -733,18 +781,7 @@ bool MineSweeper::continueOrQuit()
 			continueGame = true;
 			isRepeat = false;
 
-			// delete the memory 
-			mineGrid->reset();
-			visualGrid->reset();
-
-			// clear the console
-			system("cls");
-
-			// output welcome display
-			display->welcome();
-
-			// output main menu display
-			display->mainMenuInterface();
+			playGameGoToMainMenu();
 
 			break;
 
