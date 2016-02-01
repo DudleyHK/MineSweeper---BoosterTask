@@ -43,6 +43,7 @@ public:
 	bool playGameIsHit();
 	bool playGameGoToMainMenu();
 
+
 	void inputGridSize();
 	bool inputGridSizeErrorCheck();
 	void inputCoordinates();

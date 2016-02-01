@@ -7,7 +7,8 @@ Summary: Class Functions and compliers start point main().
 #include "MineSweeperGame.h"
 
 #include <iostream>
-#include <ctime> 
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
 
@@ -282,7 +283,7 @@ bool MineSweeper::loadGame()
 
 bool MineSweeper::playGame()
 {
-	bool inGame = false;
+	bool inGame = false, timerOn = false;
 	int mine = -1;
 
 
@@ -300,9 +301,6 @@ bool MineSweeper::playGame()
 		cout << numberOfMines << " mine is hidden." << endl;
 	}
 
-	// start timmer
-//	unsigned int startTime = clock();
-
 	inGame = true;
 	while (inGame)
 	{
@@ -317,7 +315,8 @@ bool MineSweeper::playGame()
 		visualGrid->displayGrid();
 
 		/*DEBUGGER*/
-		mineGrid->displayGrid();
+	//	mineGrid->displayGrid();
+		/*DEBUGGER*/
 
 		// guess coordinates
 		inputCoordinates();
@@ -347,7 +346,6 @@ bool MineSweeper::playGame()
 			display->winner();
 		}
 	} // END while
-
 	continueGame = continueOrQuit();
 
 	return continueGame;
@@ -394,6 +392,8 @@ bool MineSweeper::playGameGoToMainMenu()
 
 	return inGame;
 }
+
+
 
 void MineSweeper::inputGridSize()
 {
@@ -601,9 +601,6 @@ int MineSweeper::actOnLetterInputDig()
 
 	return returnCode;
 }
-
-
-
 
 void MineSweeper::floodFill(int colCoord, int rowCoord)
 {

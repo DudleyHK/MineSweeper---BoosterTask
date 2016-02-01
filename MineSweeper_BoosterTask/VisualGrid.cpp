@@ -101,18 +101,33 @@ void VGrid::initialiseArray()
 
 void VGrid::displayGrid()
 {
+	int columnNo = 0, rowNo = 0;
+
 	// FOR every row
 	for (int r = 0; r < height; r++)
 	{
-		// move away from side
-		cout << " ";
+		rowNo++;
+
+		if (rowNo < 10)
+		{
+			// move two away from side
+			cout << "  " << rowNo << "| ";
+		}
+		else
+		{
+			// move one spce from side
+			cout << " " << rowNo << "| ";
+		}
 
 		// FOR every column
 		for (int c = 0; c < width; c++)
 		{
-			// print
+
 			cout << vArray[(width*r) + c] << ' ';
+			columnNo++;
 		}
+
+		columnNo = 0;
 
 		cout << endl;
 	}
