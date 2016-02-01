@@ -7,8 +7,6 @@ Summary: Class Functions and compliers start point main().
 #include "MineSweeperGame.h"
 
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
 using namespace std;
 
 
