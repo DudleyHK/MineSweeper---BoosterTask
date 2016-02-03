@@ -41,7 +41,7 @@ public:
 	/***************************Run Time*******************************/
 
 	bool playGame();
-	bool playGameIsHit();
+	void playGameIsHit();
 	void resetGame();
 
 	void timer();

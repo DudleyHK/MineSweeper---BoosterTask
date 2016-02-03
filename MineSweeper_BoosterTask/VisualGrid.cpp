@@ -40,7 +40,6 @@ void VGrid::reset()
 }
 
 
-// these can be compressed into one like defaultsetup()
 void VGrid::setSize(int h, int w, int m)
 {
 	height = h;
@@ -54,40 +53,16 @@ char VGrid::getPos(int colCoord, int rowCoord)
 {
 	char characterAtPos = '*';
 
-	// FOR every position in array
-	for (int r = 0; r < height; r++)
-	{
-		for (int c = 0; c < width; c++)
-		{
-			// IF array position is equal to coordinates position
-			if ((width*r) + c == (width * rowCoord) + colCoord)
-			{
-				// SET variable to the value at position
-				characterAtPos = vArray[(width * rowCoord) + colCoord];
-			}
-		}
-	}
+	characterAtPos = vArray[(width * rowCoord) + colCoord];
+
 	return characterAtPos;
 }
 
-
+/* SET array position to currentChar */
 void VGrid::setPos(int colCoord, int rowCoord, char currentChar)
 {
-	// FOR each position in array
-	for (int r = 0; r < height; r++)
-	{
-		for (int c = 0; c < width; c++)
-		{
-			// IF array position is equal to coordinates position
-			if ((width * r) + c == (width*rowCoord) + colCoord)
-			{
-				// SET array position to currentChar
-				vArray[(width*r) + c] = currentChar;
-			}
-		}
-	}
+	vArray[(width*rowCoord) + colCoord] = currentChar;
 }
-
 
 /***************************Run Time*******************************/
 

@@ -335,8 +335,10 @@ bool MineSweeper::playGame()
 		switch (returnCode)
 		{
 		case -1:
-			inGame = playGameIsHit();
+			playGameIsHit();
 			continueGame = continueOrQuit();
+
+			inGame = false;
 			break;
 
 		case 0:
@@ -349,8 +351,7 @@ bool MineSweeper::playGame()
 		}
 
 
-		// IF player does NOT wish to contine game
-		if (returnCode != 1)
+		if (returnCode != -1 && returnCode != 1)
 		{
 			inGame = checkIfPlayerWon();
 		}
@@ -366,10 +367,9 @@ bool MineSweeper::playGame()
 }
 
 
-bool MineSweeper::playGameIsHit()
+void MineSweeper::playGameIsHit()
 {
 	int numOfMinesDisplayed = 0;
-	bool inGame = false;
 
 	// WHILE the number of mines displayed is NOT equal to the amount of mines
 	while (numOfMinesDisplayed <= numberOfMines)
@@ -383,9 +383,6 @@ bool MineSweeper::playGameIsHit()
 	visualGrid->displayGrid();
 
 	display->looser();
-
-
-	return inGame;
 }
                         
 

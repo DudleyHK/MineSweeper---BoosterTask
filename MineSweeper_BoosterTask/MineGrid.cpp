@@ -47,24 +47,13 @@ void MGrid::setSize(int h, int w, int m)
 	numberOfMines = m;
 }
 
+
 /*Returns value at passed in coordinates position*/
 int MGrid::getPos(int colCoord, int rowCoord)
 {
 	int numberAtPos = 0;
 
-	// FOR every position in grid
-	for (int r = 0; r < height; r++)
-	{
-		for (int c = 0; c < width; c++)
-		{
-			// IF coordintes match position in loop
-			if ((width*r) + c == (width * rowCoord) + colCoord)
-			{
-				// SET variable to the value at position
-				numberAtPos = mArray[(width * rowCoord) + colCoord];
-			}
-		}
-	}
+	numberAtPos = mArray[(width * rowCoord) + colCoord];
 
 	return numberAtPos;
 }
@@ -91,6 +80,7 @@ void MGrid::initialiseArray()
 	mineGridCalculations();
 }
 
+
 void MGrid::displayGrid()
 {
 	// FOR every position
@@ -105,6 +95,7 @@ void MGrid::displayGrid()
 		cout << endl;
 	}
 }
+
 
 void MGrid::mineGridCalculations()
 {
@@ -143,6 +134,7 @@ void MGrid::mineGridCalculations()
 	} // END FOR grid positions
 }
 
+
 void MGrid::placeMines()
 {
 	// Random function
@@ -167,11 +159,9 @@ void MGrid::placeMines()
 			}
 			else
 			{
-				// minus counter to go around the loop again.
-				counter--;
+				counter--;	// allow the loop to repeat if a position was NOT found
 			}
 
-			// once MINE is place increment counter
 			counter++;
 
 		} // END WHILE
