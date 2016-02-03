@@ -2,11 +2,14 @@
 Solution: Mine Sweeper Game
 Author: Dudley Dawes
 Summary: Class Functions and compliers start point main().
+
+check what happens when you win
 */
 
 #include "MineSweeperGame.h"
 
 #include <iostream>
+#include <ctime>
 using namespace std;
 
 
@@ -54,10 +57,12 @@ MineSweeper::MineSweeper()
 	// constuctor
 }
 
+
 MineSweeper::~MineSweeper()
 {
 	// empty.
 }
+
 
 /* return default values if game mode is 0. Else calculate number of mines
 based on the difficult mode.*/
@@ -67,6 +72,7 @@ void MineSweeper::getNumberOfMines()
 
 	numberOfMines = settings.getNumberOfMines(area, gameMode);
 }
+
 
 /*Pass Height, Width and Number of Mines to the Mine Grid and Visual Grid*/
 void MineSweeper::passSize()
@@ -112,7 +118,7 @@ bool MineSweeper::mainMenu()
 			break;
 
 		case 2:
-			mainMenuDisplay();
+			displaySettingsMenu();
 			break;
 
 		case 3:
@@ -134,6 +140,7 @@ bool MineSweeper::mainMenu()
 
 	return continueGame;
 }
+
 
 void MineSweeper::mainMenuPlayGame()
 {
@@ -159,7 +166,8 @@ void MineSweeper::mainMenuPlayGame()
 	continueGame = loadGame();
 }
 
-void MineSweeper::mainMenuDisplay()
+
+void MineSweeper::displaySettingsMenu()
 {
 	// clear console and output welcome display
 	system("cls");
@@ -167,9 +175,9 @@ void MineSweeper::mainMenuDisplay()
 
 	settingsMenu();
 
-	// output main menu display
 	display->mainMenuInterface();
 }
+
 
 void MineSweeper::menuValueIsInvaild(int userInput)
 {
@@ -177,15 +185,14 @@ void MineSweeper::menuValueIsInvaild(int userInput)
 	cout << endl;
 	cout << "Menu value " << userInput << " does not exist" << endl;
 
-	// output try again display
 	display->tryAgain();
 }
+
 
 bool MineSweeper::mainMenuIsExit()
 {
 	bool isRepeat = true;
 
-	// IF player wishes to quit the game
 	if (continueGame == false)
 	{
 		// break loop
@@ -195,12 +202,12 @@ bool MineSweeper::mainMenuIsExit()
 	return isRepeat;
 }
 
+
 void MineSweeper::settingsMenu()
 {
 	bool isRepeat = false;
 	int userInput = 0;
 
-	// output the settings menu display
 	display->settingsInterface();
 
 
@@ -264,12 +271,10 @@ void MineSweeper::settingsMenu()
 }
 
 
-/*This function sets and initialise the objects/ variables need to run the game.
-Including passing variable to the visual and mine objects. Initialsing both objects
-arrays, assigning mines random positions and finally runnning the game.*/
+/*This function sets and initialise the objects/ variables needed to run the game.*/
 bool MineSweeper::loadGame()
 {
-	// pass variables to the mine and visual object
+	// pass variables to the Mine Grid and Visual Grid
 	passSize();
 
 	// initialise both arrays
@@ -286,9 +291,7 @@ bool MineSweeper::loadGame()
 
 bool MineSweeper::playGame()
 {
-	bool inGame = false, timerOn = false;
 	int mine = -1;
-
 
 	// output instructions display
 	display->instructions();
@@ -305,6 +308,10 @@ bool MineSweeper::playGame()
 	}
 
 	inGame = true;
+
+	// start timer
+	timer();
+
 	while (inGame)
 	{
 		// select UNUSED value to initialise
@@ -318,7 +325,7 @@ bool MineSweeper::playGame()
 		visualGrid->displayGrid();
 
 		/*DEBUGGER*/
-	//	mineGrid->displayGrid();
+		mineGrid->displayGrid();
 		/*DEBUGGER*/
 
 		// guess coordinates
@@ -329,6 +336,7 @@ bool MineSweeper::playGame()
 		{
 		case -1:
 			inGame = playGameIsHit();
+			continueGame = continueOrQuit();
 			break;
 
 		case 0:
@@ -336,23 +344,27 @@ bool MineSweeper::playGame()
 			break;
 
 		case 1: 
-			inGame = playGameGoToMainMenu();
+			resetGame();
+			inGame = false;
 		}
 
-		// update number of correctly flagged mines
-		updateCounter();
 
-		// Check if game is won
-		if (correctFlags == numberOfMines && totalFlags == numberOfMines)
+		// IF player does NOT wish to contine game
+		if (returnCode != 1)
 		{
-			// output display
-			display->winner();
+			inGame = checkIfPlayerWon();
 		}
+
 	} // END while
-	continueGame = continueOrQuit();
+
+
+	// display time
+	timer();
+
 
 	return continueGame;
 }
+
 
 bool MineSweeper::playGameIsHit()
 {
@@ -375,27 +387,55 @@ bool MineSweeper::playGameIsHit()
 
 	return inGame;
 }
+                        
 
-bool MineSweeper::playGameGoToMainMenu()
+/*Delete array memory and output displays*/
+void MineSweeper::resetGame()
 {
-	bool inGame = false;
-
 	// clear the console
 	system("cls");
 
-	// output welcome display
 	display->welcome();
 
-	// output mainmenu display
 	display->mainMenuInterface();
 
-	// delete object and array memory
 	mineGrid->reset();
 	visualGrid->reset();
-
-	return inGame;
 }
 
+
+void MineSweeper::timer()
+{
+	time_t startTime = 0, endTime = 0;
+
+	if (inGame)
+	{
+		time_t (startTime);		// Set time
+		return;
+	}
+	else
+	{
+		time_t (endTime);		// Set time
+	}
+
+
+	seconds = endTime - startTime;
+
+	while (!(seconds / 60) < 1)
+	{
+		seconds -= 60;
+		minutes++;
+	}
+
+	while (!(minutes / 60) < 1)
+	{
+		seconds -= 60;
+		hours++;
+	}
+
+	cout << "Length of game " << hours << " :: " << minutes << " :: " << seconds <<
+		"( hours::minutes::seconds)" << endl;
+}
 
 
 void MineSweeper::inputGridSize()
@@ -531,7 +571,6 @@ bool MineSweeper::inputCoordinatesErrorCheck()
 }
 
 
-
 void MineSweeper::actOnLetterInput()
 {
 	bool isFlagged = false, isSafe = false;
@@ -568,6 +607,7 @@ void MineSweeper::actOnLetterInput()
 	}
 }
 
+
 int MineSweeper::actOnLetterInputDig()
 {
 	int valueAtPos = 0;
@@ -596,7 +636,7 @@ int MineSweeper::actOnLetterInputDig()
 			}
 			else
 			{
-				//simple chang ethe single position
+				//simple change the single position
 				visualGrid->changeIntToChar(systemColCoord, systemRowCoord, valueAtPos);
 			}
 		}
@@ -604,6 +644,7 @@ int MineSweeper::actOnLetterInputDig()
 
 	return returnCode;
 }
+
 
 void MineSweeper::floodFill(int colCoord, int rowCoord)
 {
@@ -647,9 +688,31 @@ void MineSweeper::floodFill(int colCoord, int rowCoord)
 }
 
 
+bool MineSweeper::checkIfPlayerWon()
+{
+	bool inGame = true;
+
+	if (returnCode != 1)
+	{
+		// update number of correctly flagged mines
+		updateCounter();
+
+		if (correctFlags == numberOfMines && totalFlags == numberOfMines)
+		{
+			display->winner();
+
+			continueGame = continueOrQuit();
+
+			inGame = false;
+		}
+	}
+
+	return inGame;
+}
+
+
 /*Check each element of the grids to check the number of total flags on the map,
-and the number of flags correctly positioned on the map. This will avoid players
-being able to cheat by randomly placing x number of flags in the grid*/
+and the number of flags correctly positioned on the map.*/
 void MineSweeper::updateCounter()
 {
 	int totalFlagsCounter = 0, correctFlagsCounter = 0;
@@ -682,29 +745,26 @@ void MineSweeper::updateCounter()
 }
 
 
-/*This functions locates each mine in the number grid and sends the coordinates
-of the position along with the number to the visual grid to be input into the
-array.*/
+/*This functions runs through the Mine array and locating each mine, and calling
+a function to set the relative position in the Visual array as a mine*/
 void MineSweeper::locateAllMines()
 {
 	int valueAtPos = 0;
 
-	// FOR each position in mine array
 	for (int r = 0; r < width; r++)
 	{
 		for (int c = 0; c < width; c++)
 		{
 			valueAtPos = mineGrid->getPos(c, r);
 
-			// if position in mArray = -1
 			if (valueAtPos == -1)
 			{
-				// call feedbk function with vArray coords
 				visualGrid->changeIntToChar(c, r, valueAtPos);
 			}
 		}
 	}
 }
+
 
 bool MineSweeper::continueOrQuit()
 {
@@ -715,7 +775,6 @@ bool MineSweeper::continueOrQuit()
 	isRepeat = true;
 	while (isRepeat)
 	{
-		// prompt for input
 		cout << "Continue Y/N?" << endl;
 		cin >> userInput;
 
@@ -733,18 +792,7 @@ bool MineSweeper::continueOrQuit()
 			continueGame = true;
 			isRepeat = false;
 
-			// delete the memory 
-			mineGrid->reset();
-			visualGrid->reset();
-
-			// clear the console
-			system("cls");
-
-			// output welcome display
-			display->welcome();
-
-			// output main menu display
-			display->mainMenuInterface();
+			resetGame();
 
 			break;
 

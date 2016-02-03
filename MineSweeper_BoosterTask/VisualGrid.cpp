@@ -21,17 +21,24 @@ VGrid::VGrid()
 
 }
 
+
 VGrid::~VGrid()
 {
 	reset();
 }
+
 
 void VGrid::reset()
 {
 	// delete off heap and point back to no memory
 	delete[] vArray;
 	vArray = nullptr;
+
+	height = 0;
+	width = 0;
+	numberOfMines = 0;
 }
+
 
 // these can be compressed into one like defaultsetup()
 void VGrid::setSize(int h, int w, int m)
@@ -40,6 +47,7 @@ void VGrid::setSize(int h, int w, int m)
 	width = w;
 	numberOfMines = m;
 }
+
 
 /*Return value of the coordinates position*/
 char VGrid::getPos(int colCoord, int rowCoord)
@@ -61,6 +69,7 @@ char VGrid::getPos(int colCoord, int rowCoord)
 	}
 	return characterAtPos;
 }
+
 
 void VGrid::setPos(int colCoord, int rowCoord, char currentChar)
 {
@@ -97,6 +106,7 @@ void VGrid::initialiseArray()
 	}
 }
 
+
 void VGrid::displayGrid()
 {
 	int columnNo = 0, rowNo = 0;
@@ -130,6 +140,7 @@ void VGrid::displayGrid()
 		cout << endl;
 	}
 }
+
 
 bool VGrid::flag(int colCoord, int rowCoord)
 {

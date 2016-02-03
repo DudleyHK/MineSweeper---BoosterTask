@@ -33,6 +33,10 @@ void MGrid::reset()
 	// delte of the heap and set to no memory
 	delete[] mArray;
 	mArray = nullptr;
+
+	height = 0;
+	width = 0;
+	numberOfMines = 0;
 }
 
 
