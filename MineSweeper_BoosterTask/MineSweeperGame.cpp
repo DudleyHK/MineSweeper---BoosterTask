@@ -2,8 +2,6 @@
 Solution: Mine Sweeper Game
 Author: Dudley Dawes
 Summary: Class Functions and compliers start point main().
-
-check what happens when you win
 */
 
 #include "MineSweeperGame.h"
@@ -16,33 +14,23 @@ using namespace std;
 /**START**/
 int main()
 {
-	// create new istances of ojects in heap
 	MineSweeper *msGame = new MineSweeper;
 	Display display;
 
-	bool continueGame = true;
 	bool gameLoop = false;
 
 
 	gameLoop = true;
-
 	while (gameLoop)
 	{
-		// output display and call function
 		display.welcome();					
-		continueGame = msGame->mainMenu();	
+		gameLoop = msGame->mainMenu();	
 
-
-		// IF the player wishes to exit the game
-		if (continueGame == false)
-		{
-			// break out of the loop
-			gameLoop = false;
-
-			// delete the memory to avoid errors
-			delete msGame;
-		}
 	} // END loop
+
+
+	delete msGame;
+	msGame = nullptr;
 
 	return 0;
 }
@@ -125,6 +113,17 @@ bool MineSweeper::mainMenu()
 			// break loop and quit program
 			isRepeat = false;
 			continueGame = false;
+
+			// delete objects memeory
+			delete display;
+			display = nullptr;
+
+			delete mineGrid;
+			mineGrid = nullptr;
+
+			delete visualGrid;
+			visualGrid = nullptr;
+
 			break;
 
 		default:
@@ -132,9 +131,6 @@ bool MineSweeper::mainMenu()
 			break;
 
 		} // END userInput switch
-
-		isRepeat = mainMenuIsExit();
-
 	} // END menu loop
 
 
@@ -150,7 +146,6 @@ void MineSweeper::mainMenuPlayGame()
 		// SET default mode
 		gameMode = 0;
 
-		// return DEFAULT values from the settings object
 		height = settings.getDefaultHeight();
 		width = settings.getDefaultWidth();
 	}
@@ -160,7 +155,6 @@ void MineSweeper::mainMenuPlayGame()
 	// clear console
 	system("cls");
 
-	// output welcome display
 	display->welcome();
 
 	continueGame = loadGame();
@@ -171,6 +165,7 @@ void MineSweeper::displaySettingsMenu()
 {
 	// clear console and output welcome display
 	system("cls");
+
 	display->welcome();
 
 	settingsMenu();
@@ -178,29 +173,15 @@ void MineSweeper::displaySettingsMenu()
 	display->mainMenuInterface();
 }
 
-
+/*	If the number entered in the menu options is incorrect*/
 void MineSweeper::menuValueIsInvaild(int userInput)
 {
-	// if the number entered is incorrect
 	cout << endl;
 	cout << "Menu value " << userInput << " does not exist" << endl;
 
 	display->tryAgain();
 }
 
-
-bool MineSweeper::mainMenuIsExit()
-{
-	bool isRepeat = true;
-
-	if (continueGame == false)
-	{
-		// break loop
-		isRepeat = false;
-	}
-
-	return isRepeat;
-}
 
 
 void MineSweeper::settingsMenu()
@@ -277,35 +258,26 @@ bool MineSweeper::loadGame()
 	// pass variables to the Mine Grid and Visual Grid
 	passSize();
 
-	// initialise both arrays
 	mineGrid->initialiseArray();
 	visualGrid->initialiseArray();
-
 
 	continueGame = playGame();
 
 	return continueGame;
 }
 
-/***************************Run Time*******************************/
+/****************************Playing********************************/
 
 bool MineSweeper::playGame()
 {
 	int mine = -1;
 
-	// output instructions display
 	display->instructions();
 
 
-	// Output dependent on number of mines hidden
-	if (numberOfMines > 1)
-	{
-		cout << numberOfMines << " mines are hidden." << endl;
-	}
-	else
-	{
-		cout << numberOfMines << " mine is hidden." << endl;
-	}
+	// print how many mines are hidden message
+	cout << numberOfMines << " mines are hidden." << endl;
+
 
 	inGame = true;
 
@@ -317,25 +289,19 @@ bool MineSweeper::playGame()
 		// select UNUSED value to initialise
 		returnCode = 5;
 
-		// Print a line.
 		cout << endl;
 		cout << "===============================================" << endl << endl;
 
-		// output the visual grid.
 		visualGrid->displayGrid();
 
-		/*DEBUGGER*/
-		mineGrid->displayGrid();
-		/*DEBUGGER*/
 
-		// guess coordinates
 		inputCoordinates();
 
 
 		switch (returnCode)
 		{
 		case -1:
-			playGameIsHit();
+			gameLost();
 			continueGame = continueOrQuit();
 
 			inGame = false;
@@ -345,7 +311,7 @@ bool MineSweeper::playGame()
 			cout << "# Error: option unavailable. please check and try again" << endl;
 			break;
 
-		case 1: 
+		case 1:
 			resetGame();
 			inGame = false;
 		}
@@ -367,17 +333,13 @@ bool MineSweeper::playGame()
 }
 
 
-void MineSweeper::playGameIsHit()
+void MineSweeper::gameLost()
 {
-	int numOfMinesDisplayed = 0;
-
-	// WHILE the number of mines displayed is NOT equal to the amount of mines
-	while (numOfMinesDisplayed <= numberOfMines)
+	// WHILE the number of mines displayed is less than total number of mines
+	for (int numOfMinesDisplayed = 0; numOfMinesDisplayed <= numberOfMines;
+		numOfMinesDisplayed++)
 	{
-		// Find each mine in the grid and set visual array
 		locateAllMines();
-
-		numOfMinesDisplayed++;
 	}
 
 	visualGrid->displayGrid();
@@ -696,6 +658,13 @@ bool MineSweeper::checkIfPlayerWon()
 
 		if (correctFlags == numberOfMines && totalFlags == numberOfMines)
 		{
+			// Print a line.
+			cout << endl;
+			cout << "===============================================" << endl << endl;
+
+			// output the visual grid.
+			visualGrid->displayGrid();
+
 			display->winner();
 
 			continueGame = continueOrQuit();
