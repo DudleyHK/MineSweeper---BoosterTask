@@ -54,7 +54,7 @@ MineSweeper::~MineSweeper()
 
 /* return default values if game mode is 0. Else calculate number of mines
 based on the difficult mode.*/
-void MineSweeper::getNumberOfMines()
+void MineSweeper::setNumberOfMines()
 {
 	int area = height * width;
 
@@ -102,7 +102,7 @@ bool MineSweeper::mainMenu()
 		switch (userInput)
 		{
 		case 1:
-			mainMenuPlayGame();
+			startGame();
 			break;
 
 		case 2:
@@ -138,7 +138,7 @@ bool MineSweeper::mainMenu()
 }
 
 
-void MineSweeper::mainMenuPlayGame()
+void MineSweeper::startGame()
 {
 	// IF game mode has NOT been selected
 	if (gameMode == -1)
@@ -181,7 +181,6 @@ void MineSweeper::menuValueIsInvaild(int userInput)
 
 	display->tryAgain();
 }
-
 
 
 void MineSweeper::settingsMenu()
@@ -265,6 +264,7 @@ bool MineSweeper::loadGame()
 
 	return continueGame;
 }
+
 
 /****************************Playing********************************/
 
