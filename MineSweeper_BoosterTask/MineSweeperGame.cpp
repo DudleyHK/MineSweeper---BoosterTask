@@ -6,10 +6,6 @@ Summary: Class Functions and compliers start point main().
 
 #include "MineSweeperGame.h"
 
-#include <iostream>
-#include <ctime>
-using namespace std;
-
 
 /**START**/
 int main()
@@ -150,7 +146,7 @@ void MineSweeper::startGame()
 		width = settings.getDefaultWidth();
 	}
 
-	getNumberOfMines();
+	setNumberOfMines();
 
 	// clear console
 	system("cls");
@@ -241,7 +237,7 @@ void MineSweeper::settingsMenu()
 		width = settings.getDefaultWidth();
 	}
 
-	getNumberOfMines();
+	setNumberOfMines();
 
 	// clear the console
 	system("cls");
@@ -301,10 +297,11 @@ bool MineSweeper::playGame()
 		switch (returnCode)
 		{
 		case -1:
-			gameLost();
-			continueGame = continueOrQuit();
-
 			inGame = false;
+
+			gameLost();
+
+			continueGame = continueOrQuit();
 			break;
 
 		case 0:
@@ -312,8 +309,9 @@ bool MineSweeper::playGame()
 			break;
 
 		case 1:
-			resetGame();
 			inGame = false;
+
+			resetGame();
 		}
 
 
@@ -323,10 +321,6 @@ bool MineSweeper::playGame()
 		}
 
 	} // END while
-
-
-	// display time
-	timer();
 
 
 	return continueGame;
@@ -356,6 +350,8 @@ void MineSweeper::resetGame()
 
 	display->welcome();
 
+	timer();
+
 	display->mainMenuInterface();
 
 	mineGrid->reset();
@@ -365,16 +361,14 @@ void MineSweeper::resetGame()
 
 void MineSweeper::timer()
 {
-	time_t startTime = 0, endTime = 0;
-
 	if (inGame)
 	{
-		time_t (startTime);		// Set time
+		time (&startTime);		// Set time
 		return;
 	}
 	else
 	{
-		time_t (endTime);		// Set time
+		time (&endTime);		// Set time
 	}
 
 
@@ -392,8 +386,9 @@ void MineSweeper::timer()
 		hours++;
 	}
 
-	cout << "Length of game " << hours << " :: " << minutes << " :: " << seconds <<
-		"( hours::minutes::seconds)" << endl;
+
+	cout << "Length of game " << hours << "::" << minutes << "::" << seconds <<
+		" (hours::minutes::seconds)" << endl << endl;
 }
 
 
@@ -532,10 +527,7 @@ bool MineSweeper::inputCoordinatesErrorCheck()
 
 void MineSweeper::actOnLetterInput()
 {
-	bool isFlagged = false, isSafe = false;
-	int valueAtPos = 0;
-	char characterAtPos = '*';
-
+	bool isFlagged = false;
 
 	// depending on the letter option
 	switch (actionLetter)
@@ -649,28 +641,24 @@ void MineSweeper::floodFill(int colCoord, int rowCoord)
 
 bool MineSweeper::checkIfPlayerWon()
 {
-	bool inGame = true;
+	// update number of correctly flagged mines
+	updateCounter();
 
-	if (returnCode != 1)
+	if (correctFlags == numberOfMines && totalFlags == numberOfMines)
 	{
-		// update number of correctly flagged mines
-		updateCounter();
+		// Print a line.
+		cout << endl;
+		cout << "===============================================" << endl << endl;
 
-		if (correctFlags == numberOfMines && totalFlags == numberOfMines)
-		{
-			// Print a line.
-			cout << endl;
-			cout << "===============================================" << endl << endl;
 
-			// output the visual grid.
-			visualGrid->displayGrid();
+		inGame = false;
 
-			display->winner();
+		// output the visual grid.
+		visualGrid->displayGrid();
 
-			continueGame = continueOrQuit();
+		display->winner();
 
-			inGame = false;
-		}
+		continueGame = continueOrQuit();
 	}
 
 	return inGame;
@@ -717,7 +705,7 @@ void MineSweeper::locateAllMines()
 {
 	int valueAtPos = 0;
 
-	for (int r = 0; r < width; r++)
+	for (int r = 0; r < height; r++)
 	{
 		for (int c = 0; c < width; c++)
 		{
@@ -736,6 +724,10 @@ bool MineSweeper::continueOrQuit()
 {
 	char userInput = 'Y';
 	bool isRepeat = false;
+
+
+	// display time
+	timer();
 
 
 	isRepeat = true;
@@ -778,5 +770,6 @@ bool MineSweeper::continueOrQuit()
 			break;
 		}
 	}
+
 	return continueGame;
 }

@@ -57,7 +57,6 @@ void Display::winner()
 	cout << " ::!!YOU WIN!!::" << endl;
 	cout << " :::::::::::::::" << endl;
 	cout << "__________________________________________________________" << endl;
-	cout << endl;
 }
 
 
@@ -65,10 +64,9 @@ void Display::looser()
 {
 	cout << endl;
 	cout << " :::::::::::::::" << endl;
-	cout << " :( YOU LOOSE ):" << endl;
+	cout << " :(  YOU LOSE) :" << endl;
 	cout << " :::::::::::::::" << endl;
 	cout << "__________________________________________________________" << endl;
-	cout << endl;
 }
 
 

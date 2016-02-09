@@ -88,10 +88,8 @@ void ErrorHandling::validateCoordinates(int coordCol, int coordRow, char actionL
 }
 
 /*This function prints out a message depending on the number passed in*/
-void ErrorHandling::printMessage(int n)
+void ErrorHandling::printMessage(int errorNumber)
 {
-	errorNumber = n;
-
 	switch (errorNumber)
 	{
 	case 9:
