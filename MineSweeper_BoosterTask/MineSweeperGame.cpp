@@ -1,7 +1,7 @@
 /*
 Solution: Mine Sweeper Game
 Author: Dudley Dawes
-Summary: Class Functions and compliers start point main().
+Summary: Class Functions and complier start point main().
 */
 
 #include "MineSweeperGame.h"

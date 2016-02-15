@@ -7,6 +7,9 @@
 				each turn.
 */
 
+#include <iostream>
+using namespace std;
+
 class VGrid
 {
 public:
