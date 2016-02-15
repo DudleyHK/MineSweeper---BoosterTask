@@ -13,6 +13,10 @@
 #include "Display.h"
 #include "ErrorHandling.h"
 
+#include <iostream>
+#include <ctime>
+using namespace std;
+
 class MineSweeper
 {
 public:
@@ -22,26 +26,25 @@ public:
 	MineSweeper();
 	~MineSweeper();
 	
-	void getNumberOfMines();
+	void setNumberOfMines();
 	void passSize();
 	void createNewCoords();
 
 	/****************************PreGame*******************************/
 
 	bool mainMenu();
-	void mainMenuPlayGame();
+	void startGame();
 	void displaySettingsMenu();
-	bool mainMenuIsExit();
 
 	void menuValueIsInvaild(int userInput);
 
 	void settingsMenu();
 	bool loadGame();
 
-	/***************************Run Time*******************************/
+	/***************************Playing********************************/
 
 	bool playGame();
-	void playGameIsHit();
+	void gameLost();
 	void resetGame();
 
 	void timer();
@@ -93,4 +96,5 @@ private:
 
 	/*TIMER VARIABLES*/
 	int seconds = 0, minutes = 0, hours = 0;
+	time_t startTime = 0, endTime = 0;
 };
