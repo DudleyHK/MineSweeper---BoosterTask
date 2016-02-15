@@ -231,13 +231,6 @@ void MineSweeper::settingsMenu()
 	{
 		inputGridSize();
 	}
-	else
-	{
-		height = settings.getDefaultHeight();
-		width = settings.getDefaultWidth();
-	}
-
-	setNumberOfMines();
 
 	// clear the console
 	system("cls");
@@ -679,7 +672,7 @@ void MineSweeper::updateCounter()
 			char vPos = visualGrid->getPos(col, row);
 			int mPos = mineGrid->getPos(col, row);
 
-			if (vPos == 'F')
+			if (vPos == 'F' && mPos == -1)
 			{
 				// increment total number of mines in grid by one
 				totalFlagsCounter++;
