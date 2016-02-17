@@ -99,6 +99,20 @@ bool MineSweeper::mainMenu()
 		{
 		case 1:
 			startGame();
+
+			if (continueGame == false)
+			{
+				isRepeat = false;
+
+				delete display;
+				display = nullptr;
+
+				delete mineGrid;
+				mineGrid = nullptr;
+
+				delete visualGrid;
+				visualGrid = nullptr;
+			}
 			break;
 
 		case 2:
@@ -342,8 +356,6 @@ void MineSweeper::resetGame()
 	system("cls");
 
 	display->welcome();
-
-	timer();
 
 	display->mainMenuInterface();
 
